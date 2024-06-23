@@ -1,0 +1,5 @@
+build docker compose:
+docker-compose up -d
+
+verify docker compose
+docker ps
