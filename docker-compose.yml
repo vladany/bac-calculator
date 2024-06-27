@@ -1,3 +1,4 @@
+# first instantiate db with corresponding user + password from the properties
 version: '3.8'
 services:
   postgres:
@@ -11,7 +12,10 @@ services:
       - "5432:5432"
     volumes:
       - new_postgres_data:/var/lib/postgresql/data
-
+# das nennt man docker image
+# container sind laufende docker images zur laufzeit
+# log for pgadmin
+# in pgadmin we imported the db above and a maintance db
   pgadmin:
     image: dpage/pgadmin4
     container_name: my_pgadmin_container
@@ -22,21 +26,22 @@ services:
       - "5050:80"
     depends_on:
       - postgres
-
-  app:
-    image: 'docker-spring-boot-postgres:latest'
-    build:
-      context: .
-    container_name: my_app_container
-    depends_on:
-      - postgres
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://my_postgres_container:5432/bac_calculator
-      - SPRING_DATASOURCE_USERNAME=user
-      - SPRING_DATASOURCE_PASSWORD=password
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-    ports:
-      - "8080:8080"
-
 volumes:
   new_postgres_data:
+
+# this is for instantiate the spring boot app in a container
+  # app:
+  #  image: 'docker-spring-boot-postgres:latest'
+  # build:
+  #  context: .
+  # container_name: my_app_container
+  # depends_on:
+  #   - postgres
+  # environment:
+  #  - SPRING_DATASOURCE_URL=jdbc:postgresql://my_postgres_container:5432/bac_calculator
+  #  - SPRING_DATASOURCE_USERNAME=user
+  #  - SPRING_DATASOURCE_PASSWORD=password
+  #  - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+  #ports:
+  # - "8080:8080"
+
